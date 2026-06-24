@@ -1,76 +1,78 @@
-# Apport de la télématique automobile dans la modélisation actuarielle
+# Contribution of Automotive Telematics in Actuarial Modeling
 
-Projet de modélisation en assurance — Mai 2026
+Insurance modeling project — May 2026
 
-## Résumé
+## Summary
 
-Ce projet explore l’apport des données télématiques automobiles dans deux problématiques actuarielles complémentaires :
+This project explores the contribution of automotive telematics data in two complementary actuarial problems:
 
-- la segmentation du risque (classification des conducteurs à risque),
-- la tarification d’assurance (estimation de la prime pure via fréquence × sévérité).
+- risk segmentation (classification of high-risk drivers),
+- insurance pricing (pure premium estimation via frequency × severity modeling).
 
-Le dataset utilisé est un jeu de données synthétique issu de So, Boucher & Valdez (2021), simulant un portefeuille d’assurance automobile basé sur 100 000 polices d’assurance “usage-based”.
+The dataset used is a synthetic dataset from So, Boucher & Valdez (2021), simulating an insurance portfolio based on 100,000 usage-based insurance policies.
 
-L’objectif est de comparer :
-- variables traditionnelles vs télématiques
-- modèles linéaires vs non-linéaires
-- machine learning vs modèles actuariels classiques
-
----
-
-## Résultats principaux
-
-- Ajout des variables télématiques : +0,11 AUC (0,68 → 0,79 en régression logistique)
-- Passage aux modèles non-linéaires (XGBoost) : +0,08 AUC supplémentaire
-- Gain total entre baseline et meilleur modèle : +0,19 AUC (~+29%)
-
-### Segmentation du risque
-- Meilleur modèle : XGBoost + cost-sensitive learning
-- AUC test ≈ 0,89
-- Excellente capacité de ranking des conducteurs à risque
-
-### Tarification actuarielle
-- Pipeline Poisson × Gamma
-- Erreur agrégée de prime ≈ 1,9%
-- Forte discrimination des déciles de risque (~15× entre extrêmes)
+The objective is to compare:
+- traditional vs telematics-based variables
+- linear vs non-linear models
+- machine learning vs classical actuarial models
 
 ---
 
-## Méthodologie
+## Main Results
+
+- Adding telematics variables: +0.11 AUC (0.68 → 0.79 with logistic regression)
+- Switching to non-linear models (XGBoost): +0.08 additional AUC
+- Total gain between baseline and best model: +0.19 AUC (~+29%)
+
+### Risk Segmentation
+- Best model: XGBoost + cost-sensitive learning
+- Test AUC ≈ 0.89
+- Strong ability to rank high-risk drivers
+
+### Actuarial Pricing
+- Frequency model: Poisson
+- Severity model: Gamma
+- Pure premium = frequency × severity
+- Aggregate pricing error ≈ 1.9%
+- Strong risk differentiation across deciles (~15× between extremes)
+
+---
+
+## Methodology
 
 ### Segmentation
-- Régression logistique (baseline)
-- XGBoost (non-linéaire)
-- Gestion du déséquilibre :
+- Logistic regression (baseline)
+- XGBoost (non-linear model)
+- Imbalance handling:
   - SMOTE
   - cost-sensitive learning
-- Calibration : Platt scaling
+- Calibration: Platt scaling
 
-### Tarification
-- Modèle de fréquence : Poisson
-- Modèle de sévérité : Gamma
-- Prime pure = fréquence × sévérité
+### Pricing
+- Frequency model: Poisson regression
+- Severity model: Gamma regression
+- Pure premium = frequency × severity
 
 ---
 
-## Données
+## Data
 
-- Source : So, Boucher & Valdez (2021)
-- 100 000 polices synthétiques
-- 52 variables :
-  - 11 traditionnelles
-  - 39 télématiques
-  - 2 cibles :
+- Source: So, Boucher & Valdez (2021)
+- 100,000 synthetic insurance policies
+- 52 features:
+  - 11 traditional variables
+  - 39 telematics variables
+  - 2 targets:
     - NB_Claim
     - AMT_Claim
 
-Déséquilibre :
-- ~95% sans sinistre
-- ~5% avec sinistre
+Class imbalance:
+- ~95% no claim
+- ~5% at least one claim
 
 ---
 
-## Stack technique
+## Tech Stack
 
 - Python 3.12
 - pandas, numpy
@@ -82,28 +84,28 @@ Déséquilibre :
 
 ---
 
-## Structure du projet
+## Project Structure
 
-data/           données brutes  
-notebooks/      analyses et modèles  
-app/            application Streamlit  
-rapport/        rapport PDF  
+data/           raw data  
+notebooks/      analysis and models  
+app/            Streamlit application  
+report/         PDF report  
 presentation/   slides  
 
 ---
 
-## Insights clés
+## Key Insights
 
-- La télématique améliore fortement la prédiction du risque
-- Les modèles non-linéaires capturent mieux les comportements de conduite
-- SMOTE est moins performant que le cost-sensitive learning pour les arbres
-- ML et actuariat sont complémentaires :
-  - ML → scoring et segmentation
-  - Actuariat → tarification robuste
+- Telematics significantly improves risk prediction
+- Non-linear models better capture driving behavior patterns
+- SMOTE is less effective than cost-sensitive learning for tree-based models
+- Machine learning and actuarial modeling are complementary:
+  - ML → scoring and segmentation
+  - Actuarial → robust pricing
 
 ---
 
-## Références
+## References
 
 - So, Boucher & Valdez (2020, 2021)
 - Denuit et al. (2007)
@@ -114,6 +116,6 @@ presentation/   slides
 
 ---
 
-## Auteur
+## Author
 
 Fatoumata Rami Eunice
